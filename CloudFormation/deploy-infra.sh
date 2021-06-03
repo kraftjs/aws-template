@@ -3,7 +3,9 @@
 STACK_NAME=bondfire
 REGION=us-east-1
 CLI_PROFILE=bondfireCLI
+
 EC2_INSTANCE_TYPE=t2.micro
+DOMAIN=bondfire.dev
 
 GH_ACCESS_TOKEN=$(cat ~/.github/aws-template-access-token)
 GH_OWNER=$(cat ~/.github/aws-template-owner)
@@ -57,7 +59,9 @@ aws cloudformation deploy \
   --template-file ./cfn_output/main.yml \
   --no-fail-on-empty-changeset \
   --capabilities CAPABILITY_NAMED_IAM \
-  --parameter-overrides EC2InstanceType=$EC2_INSTANCE_TYPE \
+  --parameter-overrides \
+    EC2InstanceType=$EC2_INSTANCE_TYPE \
+    Domain=$DOMAIN \
     GitHubOwner=$GH_OWNER \
     GitHubRepo=$GH_REPO \
     GitHubBranch=$GH_BRANCH \

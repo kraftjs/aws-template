@@ -1,4 +1,5 @@
 **/node_modules/*
+cfn_output/*
 .vscode/*
 .idea/*
 /logs/

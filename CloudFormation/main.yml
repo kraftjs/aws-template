@@ -4,6 +4,9 @@ Parameters:
   EC2InstanceType:
     Type: String
   EC2AMI:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
+  Domain:
     Type: String
   CodePipelineBucket:
     Type: String
@@ -166,6 +169,8 @@ Resources:
       Parameters:
         EC2InstanceType: !Ref EC2InstanceType
         EC2AMI: !Ref EC2AMI
+        Domain: !Ref Domain
+        SubDomain: staging
   Prod:
     Type: AWS::CloudFormation::Stack
     DependsOn: Staging
@@ -175,6 +180,8 @@ Resources:
       Parameters:
         EC2InstanceType: !Ref EC2InstanceType
         EC2AMI: !Ref EC2AMI
+        Domain: !Ref Domain
+        SubDomain: prod
 
 Outputs:
   StagingLBEndpoint:
