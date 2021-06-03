@@ -45,6 +45,7 @@ Resources:
           Action: sts:AssumeRole
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/PowerUserAccess
+
   BuildProject:
     Type: AWS::CodeBuild::Project
     Properties:
@@ -58,11 +59,13 @@ Resources:
         Image: aws/codebuild/standard:2.0
       Source:
         Type: CODEPIPELINE
+
   DeploymentApplication:
     Type: AWS::CodeDeploy::Application
     Properties:
       ApplicationName: !Ref AWS::StackName
       ComputePlatform: Server
+
   StagingDeploymentGroup:
     Type: AWS::CodeDeploy::DeploymentGroup
     Properties:
@@ -72,6 +75,7 @@ Resources:
       ApplicationName: !Ref DeploymentApplication
       DeploymentConfigName: CodeDeployDefault.AllAtOnce
       ServiceRoleArn: !GetAtt DeploymentRole.Arn
+
   ProdDeploymentGroup:
     Type: AWS::CodeDeploy::DeploymentGroup
     Properties:
@@ -81,6 +85,7 @@ Resources:
       ApplicationName: !Ref DeploymentApplication
       DeploymentConfigName: CodeDeployDefault.OneAtATime
       ServiceRoleArn: !GetAtt DeploymentRole.Arn
+
   Pipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
@@ -150,6 +155,7 @@ Resources:
                 ApplicationName: !Ref DeploymentApplication
                 DeploymentGroupName: !Ref ProdDeploymentGroup
               RunOrder: 1
+
   PipelineWebhook:
     Type: AWS::CodePipeline::Webhook
     Properties:
@@ -164,7 +170,8 @@ Resources:
       Name: !Sub 'webhook-${AWS::StackName}'
       TargetPipelineVersion: !GetAtt Pipeline.Version
       RegisterWithThirdParty: true
-  Staging:
+
+  :
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: stage.yml
@@ -175,6 +182,7 @@ Resources:
         Domain: !Ref Domain
         SubDomain: staging
         Certificate: !Ref Certificate
+
   Prod:
     Type: AWS::CloudFormation::Stack
     DependsOn: Staging
