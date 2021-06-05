@@ -16,7 +16,7 @@ CFN_BUCKET="$STACK_NAME-cfn-$AWS_ACCOUNT_ID"
 GH_ACCESS_TOKEN=$(cat ~/.github/aws-template-access-token)
 GH_OWNER=$(cat ~/.github/aws-template-owner)
 GH_REPO=$(cat ~/.github/aws-template-repo)
-GH_BRANCH=master
+GH_BRANCH=main
 
 # Deploys static resources
 echo -e "\n\n=========== Deploying setup.yml ==========="
